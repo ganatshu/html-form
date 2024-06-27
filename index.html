@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+    <!-- HTML form to collect user information -->
+    <form id="form" action="https://sg-apim-svc-instance.azure-api.net/form-api/1.0/FormTrigger" method="post">
+        
+        First name:
+        <br>    <input type="text" name="firstName" required>   <br>
+        
+        Last name:
+        <br>    <input type="text" name="lastName" required>    <br>
+
+        Email:
+        <br>    <input type="email" name="email" required>      <br>
+        
+        <!-- Submit Button -->
+        <br>    <input type="submit" value="Submit">            <br>
+
+</form> 
+
+
+<script>
+  document.getElementById('form').addEventListener('submit', async function(event) {
+    
+    // Prevent the default form submission
+    event.preventDefault();
+    
+    // Collect form data from input fields
+    const formData = {
+      firstName: event.target.firstName.value,
+      lastName: event.target.lastName.value,
+      email: event.target.email.value
+    };
+
+    try {
+          // Send a POST request to the specified API Management endpoint   
+          const response = await fetch(event.target.action, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json', // Content type JSON
+                'Ocp-Apim-Subscription-Key': 'bdf8c96be12c4005922ac96adc2a0e54' // Subscription key
+              },
+            body: JSON.stringify(formData) // Convert form data to JSON format
+            });
+
+          // Check 200 OK
+          if (response.ok) {
+            alert('Form submitted successfully!'); // Success Messsage
+          } else {
+            alert('Failed to submit form'); // Errot Message
+          }
+        } catch (error) {
+          alert('An error occurred: ' + error.message); // Error message if exception occurs
+        }
+      });      
+</script>
+
+</body>
+</html>
